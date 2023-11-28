@@ -1,7 +1,8 @@
 
 
 const ping = (req, res) => {
-    res.status(200).json({ message: 'Ping successful!' });
+    console.log("rnfjnf");
+     res.status(200).json({ message: 'Ping successful!' });
 }
 
 module.exports = { ping }

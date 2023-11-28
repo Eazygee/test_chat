@@ -4,5 +4,5 @@ const {
     ping
 } = require("../app/controllers/PingController")
 
-router.get('/ping');
+router.get("/ping", ping);
 module.exports = router

@@ -19,7 +19,7 @@ sequelize.authenticate()
         console.error('Unable to connect to the database:', error);
     });
 
-app.use("/", pingRoute)
+app.use("/api", pingRoute)
 app.use('/api/auth', authRoute)
 app.use('/api/chats', authenticateToken, chatRoute)
 
