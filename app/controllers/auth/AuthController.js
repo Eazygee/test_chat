@@ -19,18 +19,23 @@ const Register = async (req, res) => {
         }, { transaction });
 
         const accessToken = jwt.sign({ user_id: data.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        await transaction.commit();
         const responseData = {
             id: data.id,
             name: data.name,
             email: data.email,
             token: accessToken
         };
+        await transaction.commit();
         res.status(201).json(validResponse("User registered successfully", responseData));
     } catch (error) {
         await transaction.rollback();
         console.error(error);
-        res.status(500).json(problemResponse(null, error, SERVER_ERROR_CODE));
+        if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+            res.status(400).json(problemResponse("Validation error", error.errors.map(e => e.message)));
+        } else {
+            // Send a generic error response
+            res.status(500).json(problemResponse("Something went wrong"));
+        }
     }
 }
 
