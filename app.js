@@ -10,7 +10,7 @@ app.use(express.json())
 const authenticateToken = require("./app/middleware/AuthMiddleware");
 
 
-// sequelize.sync()
+sequelize.sync()
 sequelize.authenticate()
     .then(() => {
         console.log('Connected to the database.');
