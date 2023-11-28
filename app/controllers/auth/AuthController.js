@@ -63,7 +63,12 @@ const Login = async (req, res) => {
 
     } catch (error) {
         console.error(error);
-        res.status(500).json(problemResponse(null, error, SERVER_ERROR_CODE));
+        if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+            res.status(400).json(problemResponse("Validation error", error.errors.map(e => e.message)));
+        } else {
+            // Send a generic error response
+            res.status(500).json(problemResponse("Something went wrong"));
+        }
     }
 }
 
